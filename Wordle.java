@@ -8,9 +8,9 @@ import java.util.List;
 
 public class Wordle
 {
-    public static final String solution = "vishu";
+    public static final String solution = randomWord();
     
-    public static boolean onlyRealWords = false;
+    public static boolean onlyRealWords = true;
     
     public static void main(String[] args)
     {
@@ -18,13 +18,7 @@ public class Wordle
         {
             Scanner input = new Scanner(System.in);
             
-            System.out.println("Enter \"PLAY\" to start. Enter \"HELP\"");
-            String start = input.nextLine();
-            
-            if(start.equalsIgnoreCase("PLAY"))
-                run();
-            if(start.equals("STOP") || start.equals("Stop") || start.equals("stop"))
-                System.exit(1);
+            run();
         }
     }
     
@@ -256,5 +250,32 @@ public class Wordle
             return true;
         else
             return false;
+    }
+    
+    public static String randomWord()
+    {
+        Random rand = new Random();
+        
+        String fileName = "words.txt";
+        List<String> wordList = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName)))
+        {
+            String line;
+            while ((line = br.readLine()) != null)
+            {
+                wordList.add(line);
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        String[] wordsArray = wordList.toArray(new String[0]);
+        
+        
+        
+        return wordsArray[rand.nextInt(wordsArray.length)];
     }
 }
