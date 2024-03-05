@@ -25,9 +25,7 @@ public class Wordle
     }
     
     public static void run()
-    {
-        System.out.println(solution);
-        
+    {        
         Scanner input = new Scanner(System.in);
         
         if(isReal(solution) == false && onlyRealWords == true)
