@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Wordle
 {
-    public static final String solution = randomWord();
+    public static String solution = randomWord();
     
     public static boolean onlyRealWords = true;
     
@@ -26,6 +26,8 @@ public class Wordle
     
     public static void run()
     {
+        System.out.println(solution);
+        
         Scanner input = new Scanner(System.in);
         
         if(isReal(solution) == false && onlyRealWords == true)
@@ -59,11 +61,13 @@ public class Wordle
                     System.out.println("This is not a real word");
                 }
             }
+            else if(guessArr[guessNum].equalsIgnoreCase("stop")) //extra commands
+                System.exit(1);
             else
                 System.out.println("not 5 letters");
         }
-        System.out.print("You lose. The word was " + solution);
-        System.exit(1);
+        System.out.println("You lose. The word was " + solution);
+        playAgain();
     }
     
     public static void check(String origGuess)
@@ -215,7 +219,7 @@ public class Wordle
             isGreen[4] == true)
         {
             System.out.println("You Win!!!");
-            System.exit(1);
+            playAgain();
         }
     }
     public static boolean isReal(String wordToFind)
@@ -275,5 +279,20 @@ public class Wordle
         
         
         return wordsArray[rand.nextInt(wordsArray.length)];
+    }
+    public static void playAgain()
+    {
+        Scanner input = new Scanner(System.in);
+        
+        System.out.println("Would you like to keep playing? (yes/no)");
+        String keepPlaying = input.nextLine();
+        if(keepPlaying.equalsIgnoreCase("yes"))
+        {
+            solution = randomWord();
+            run();
+        }
+        else
+            System.out.print("Thanks for playing!");
+            System.exit(1);
     }
 }
