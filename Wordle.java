@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
 
 public class Wordle
 {
@@ -61,10 +63,12 @@ public class Wordle
                 System.out.println("not 5 letters");
         }
         System.out.print("You lose. The word was " + solution);
+        System.exit(1);
     }
     
-    public static void check(String guess)
+    public static void check(String origGuess)
     {
+        String guess = origGuess.toUpperCase();
         String[] color = {"","","","",""};
         boolean[] isGreen = {false,false,false,false,false};
         
@@ -216,40 +220,33 @@ public class Wordle
     }
     public static boolean isReal(String wordToFind)
     {
-        boolean isRealWord;
+        boolean isRealWord = false;
         
-        String fileName = "words.txt";
         List<String> wordList = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName)))
-        {
+        
+        try (BufferedReader br = new BufferedReader(new FileReader("words.txt"))) {
             String line;
-            while ((line = br.readLine()) != null)
-            {
-                wordList.add(line);
+            while ((line = br.readLine()) != null) {
+                String[] words = line.split("\\s+"); // Split by whitespace
+                wordList.addAll(Arrays.asList(words));
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
-        String[] wordsArray = wordList.toArray(new String[0]);
+        
+        // Convert ArrayList to array if needed
+        String[] wordArray = wordList.toArray(new String[0]);
         
         isRealWord = false;
-        for (String word : wordsArray)
+        for(String word : wordArray)
         {
-            if(word.equals(wordToFind))
+            if(word.equalsIgnoreCase(wordToFind))
             {
                 isRealWord = true;
-                break;
             }
-            
         }
-        if(isRealWord == true)
-            return true;
-        else
-            return false;
+        
+        return isRealWord;
     }
     
     public static String randomWord()
@@ -259,19 +256,20 @@ public class Wordle
         String fileName = "words.txt";
         List<String> wordList = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName)))
-        {
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
-            while ((line = br.readLine()) != null)
-            {
-                wordList.add(line);
+            while ((line = br.readLine()) != null) {
+                // Split each line by space and add resulting words to the list
+                String[] words = line.split(" ");
+                for (String word : words) {
+                    wordList.add(word);
+                }
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
+        // Convert list to array
         String[] wordsArray = wordList.toArray(new String[0]);
         
         
